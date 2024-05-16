@@ -3,15 +3,16 @@ import React from "react";
 
 export default function Slider({ sliderList }) {
   return (
-    <View>
+    <View className="">
       <FlatList
         data={sliderList}
+        horizontal={true}
         renderItem={({ item, index }) => (
           <View>
-            <Text>{index}</Text>
+            {/* <Text>{index}</Text> */}
             <Image
               source={{ uri: item?.image }}
-              className="h-[200px] w-[200px]"
+              className="h-[130px] w-[330px] mr-3 rounded-lg object-contain"
             />
           </View>
         )}
