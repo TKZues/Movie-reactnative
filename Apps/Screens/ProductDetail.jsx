@@ -10,10 +10,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { useUser } from "@clerk/clerk-expo";
 
 export default function ProductDetail({ navigation }) {
   const { params } = useRoute();
   const [product, setProductDetail] = useState([]);
+  const { user } = useUser();
   useEffect(() => {
     params && setProductDetail(params.product);
     shareButton();
@@ -78,12 +80,21 @@ export default function ProductDetail({ navigation }) {
           <Text className="text-gray-600">{product.userEmail}</Text>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={() => sendEmailMessage()}
-        className="bg-blue-600 m-2 p-2 rounded-full"
-      >
-        <Text className="text-center text-white">Send Message</Text>
-      </TouchableOpacity>
+      {user.primaryEmailAddress.emailAddress == product.userEmail ? (
+        <TouchableOpacity
+          onPress={() => sendEmailMessage()}
+          className="bg-red-600 m-2 p-2 rounded-full"
+        >
+          <Text className="text-center text-white">Delete Product</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => sendEmailMessage()}
+          className="bg-blue-600 m-2 p-2 rounded-full"
+        >
+          <Text className="text-center text-white">Send Message</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 }
